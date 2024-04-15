@@ -72,7 +72,6 @@ Source code directory housing the implementation details:
 ![Performance of encoding vector self-feedback annotation and clustering](figures/figure3.png)
 - **Accuracy of RT annotations across encoding vectors and clustering numbers**: We assess the annotation accuracy ($Acc$) among four encoding methods at various reasonable clustering numbers ($N$). The results reveal that the encoding method utilizing concatenated input-output vectors ($concat(input, output)_{vec}$) delivers the highest performance.
 - **Clustering of test dataset vectors ($concat(input, output)_{vec}$)**: With $N$ set to 6 and 10, test dataset vectors are processed through a linear layer to reduce them to two dimensions, effectively visualizing the clustering outcomes.
-<img src="figure3.png" alt="Performance of encoding vector self-feedback annotation and clustering" width="90%">
 
 ## Case Studies
 ![Case studies of RT annotation](figures/figure4.png)
@@ -81,22 +80,11 @@ To validate the practical significance of RT annotation, we analyze samples filt
 
 ## References
 ```
-[1] Xu Z, Li J, Yang Z, et al. SwinOCSR: end-to-end optical chemical structure recognition using a Swin Transformer[J]. Journal of Cheminformatics, 2022, 14(1): 1-13.
-[2] Su B, Du D, Yang Z, et al. A molecular multimodal foundation model associating molecule graphs with natural language[J]. arXiv preprint arXiv:2209.05481, 2022.(https://arxiv.org/abs/2209.05481)
-[3] Edwards C, Lai T, Ros K, et al. Translation between molecules and natural language[J]. arXiv preprint arXiv:2204.11817, 2022.
-[4] Luo Y, Yang K, Hong M, et al. Molfm: A multimodal molecular foundation model[J]. arXiv preprint arXiv:2307.09484, 2023.
+[1] Fang Y, Liang X, Zhang N, et al. Mol-Instructions-A Large-Scale Biomolecular Instruction Dataset for Large Language Models[C]//The Twelfth International Conference on Learning Representations. 2023.
+[2] Christofidellis D, Giannone G, Born J, et al. Unifying molecular and textual representations via multi-task language modelling[C]//International Conference on Machine Learning. PMLR, 2023: 6140-6157.
 ```
-## Acknowledgments
-The development of the ChEBI-20-MM dataset was inspired by the ChEBI-20 in molecule generation and captioning initiated by MolT5. Additional data information supplements are derived from PubChem. The initial model weights provided by Hugging Face are crucial components in our evaluation process.
 
-## Citation
-```
-@misc{liu2024scientific,
-      title={Scientific Language Modeling: A Quantitative Review of Large Language Models in Molecular Science}, 
-      author={Pengfei Liu and Jun Tao and Zhixiang Ren},
-      year={2024},
-      eprint={2402.04119},
-      archivePrefix={arXiv},
-      primaryClass={cs.LG}
-}
-```
+## Acknowledgments
+
+The development of the SLM4CRP_with_RTs dataset was greatly inspired by the Mol-Instruction approach to chemical reaction predictions (CRPs). We are also thankful to Hugging Face for providing the initial model weights that facilitated our research.
+
