@@ -1,155 +1,82 @@
-# Scientific Language Modeling (SLM4Mol): A Quantitative Review of Large Language Models in Molecular Science
+# A Self-feedback Knowledge Elicitation Approach: Scientific Language Modeling for Chemical Reaction Predictions (SLM4CRP)
 
-This analysis offers a comprehensive review of Transformer models and Large Language Models (LLMs) in molecular modeling and design. Large language models (LLMs) offer a fresh approach to tackle scientific problems from a natural language processing (NLP) perspective, introducing a research paradigm called scientific language modeling (SLM). However, two key issues remain: how to quantify the match between model and data modalities and how to identify the knowledge-learning preferences of models. To address these challenges, we propose a multi-modal benchmark, named ChEBI-20-MM, and perform 1263 experiments to assess the model's compatibility with data modalities and knowledge acquisition. Through the modal transition probability matrix, we provide insights into the most suitable modalities for tasks. Furthermore, we introduce a statistically interpretable approach to discover context-specific knowledge mapping by localized feature filtering.
+The task of chemical reaction predictions (CRPs) plays a pivotal role in advancing drug discovery and material science. However, its effectiveness is constrained by the vast and uncertain chemical reaction space and challenges in capturing reaction selectivity, particularly due to existing methods' limitations in exploiting the data's inherent knowledge. To address these challenges, we introduce a data-curated self-feedback knowledge elicitation approach. This method starts from iterative optimization of molecular representations and facilitates the extraction of knowledge on chemical reaction types (RTs). Then, we employ adaptive prompt learning to infuse the prior knowledge into the large language model (LLM). As a result, we achieve significant enhancements: a 14.2% increase in retrosynthesis prediction accuracy, a 74.2% rise in reagent prediction accuracy, and an expansion in the model's capability for handling multi-task chemical reactions. This research offers a novel paradigm for knowledge elicitation in scientific research and showcases the untapped potential of LLMs in CRPs.
 
-![Overview of tasks in review.](figures/figure1.png)
+![Overview of tasks and approaches.](figures/figure1.png)
 
 **Paradigm of the Review**:
-- **a. Molecular Modeling and Design Tasks**: Showcasing six task types, their standard modeling methods, and data examples.
-- **b. Processes of Tasks**: Dividing molecular data into internal and external categories. Internal information is key to molecular representation and can be converted via various tools, while external information is more accessible and comprehensible to humans. This section outlines the research scope, detailing inputs and outputs for each task.
+- **a. Chemical reaction prediction tasks**: showcasing three tasks along with examples.
+- **b. Current LLM methods for CRPs**: indicating rational predictions but lacking in reactive validity.
+- **c. Self-feedback knowledge elicitation for enhancing CRPs**: Self-feedback knowledge elicitation for enhancing CRPs}, demonstrating the enhancement of CRPs through the refinement of knowledge patterns, notably RTs, utilizing a self-feedback knowledge elicitation technique. Knowledge elicitation serves as a method of data curation for knowledge distillation, where RT is integrated into large language models via adaptive prompt learning, facilitating the planning of reaction pathways in CRPs.
 
-**Note**: The ChEBI-20-MM benchmark and model sections detail respective directories. Some data and checkpoints might not be available due to size constraints and permissions.
+**Note**: The dataset and model sections detail respective directories. Some data and checkpoints might not be available due to size constraints and permissions.
 
-## ChEBI-20-MM
-We introduce ChEBI-20-MM, a multi-modal benchmark developed from the ChEBI-20 dataset, integrating data like InChI, IUPAC, and images for a diverse range of molecular tasks.
+## SLM4CRP_with_RTs
+The SLM4CRP_with_RTs dataset is a CRPs dataset featuring RT labels, developed from the Mol-Instruction. We introduce a novel knowledge elicitation approach integrating a self-feedback mechanism with data curation using LLMs. This dataset embodies domain-specific knowledge by combining reactants and products of chemical reactions with annotated RTs, demonstrating that domain-integrated data can enhance the capabilities of LLMs.
 
-Contents:
-- `train.csv` (26,406 records)
-- `validation.csv` (3,300 records)
-- `test.csv` (3,300 records)
-- `image` folder: Molecular images from Pubchem (e.g., `cid.png`)
+### Contents
+- `forward_reaction_prediction.json`: Contains data for forward reaction prediction tasks.
+- `retrosynthesis.json`: Includes data for retrosynthesis tasks.
+- `reagent_prediction.json`: Features data for predicting reagents in chemical reactions.
+- `reactions.json`: Serves multiple tasks involving different types of chemical reactions.
 
-Download links:
-- [ChEBI-20-MM](https://huggingface.co/datasets/liupf/ChEBI-20-MM)
-- [MoleculeNet Datasets](https://moleculenet.org/datasets-1)
+### Download links
+- [SLM4CRP_with_RTs Dataset](https://huggingface.co/datasets/liupf/SLM4CRP_with_RTs)
 
-Visualization of Data Source Suitability and Chemical Space Diversity:
-![Visualization of Data Source Suitability and Chemical Space Diversity.](figures/figure3.png)
+## Review of Our Approach
+![Three-stage training scheme of prompt-based knowledge elicitation](figures/figure2.png)
 
-## Review of Models
-![Timeline of key developments](figures/figure2.png)
 ### Developments and Architectures of Models
-A timeline illustrating key developments in transformer-based models for molecular modeling and design.
-- **a. Timeline of the key developments of LLMs**, with models based on the Transformer architecture differentiated by various colors to denote the backbone. 
-- **b. Tasks and Models**: Relationship between six downstream tasks and model architectures.
-- **c. Encoder-Decoder Model Architectures**: Three main frameworks: Text-Text, Graph-Text, and Image-Text, each suited for specific molecular tasks.
+- **Knowledge extraction**: We divide the datasets into training, validation, and testing sets. The training set inputs and outputs are clustered using LLM-RT embeddings, facilitating RT annotations. Annotation accuracy is enhanced through iterative tuning of clustering parameters and training with inputs and RTs, aiming to pinpoint the optimal cluster settings for maximum precision.
+- **Data curation**: The trained LLM-RT model annotates RTs for the validation and testing datasets based on their input configurations.
+- **Adaptive knowledge injection**: Adaptability scores are derived from the embeddings of inputs and instructions, guiding the selection of the most effective adaptive instructions.
 
+![Performance of encoding vector self-feedback annotation and clustering](figures/figure3.png)
+- **Accuracy of RT annotations across encoding vectors and clustering numbers**: We assess the annotation accuracy ($Acc$) among four encoding methods at various reasonable clustering numbers ($N$). The results reveal that the encoding method utilizing concatenated input-output vectors ($concat(input, output)_{vec}$) delivers the highest performance.
+- **Clustering of test dataset vectors ($concat(input, output)_{vec}$)**: With $N$ set to 6 and 10, test dataset vectors are processed through a linear layer to reduce them to two dimensions, effectively visualizing the clustering outcomes.
 
-## Evaluation Framework
-**Benchmark Experiments Overview**:
-Our study includes tests across eight primary model architectures, featuring common backbone models or composite models. We conducted a total of 1,263 experiments, showcasing the adaptability of various models to different molecular tasks. Detailed experimental results are shown in our paper's Appendix. C Table 3-Table 7.
+## Code Structure
 
-![Overview of Experiments](figures/figure4.png)
+### `ckpts`
+Directory containing checkpoints used for different purposes:
+- **finetune_ckpts**: Checkpoints from fine-tuning processes.
+- **text_ckpts**: Contains the checkpoints related to text models.
+    - [Text+Chem T5](https://huggingface.co/GT4SD/multitask-text-and-chemistry-t5-base-augm): A model checkpoint for text and chemical data integration.
 
-## Code
-### `ckpts` 
-- image_ckpts
-    - [Swin Transformer-SwinOCSR](https://github.com/suanfaxiaohuo/SwinOCSR)
-    - [Swin Transformer](https://huggingface.co/microsoft/swin-tiny-patch4-window7-224)
-    - [ResNet](https://huggingface.co/microsoft/resnet-50)
-    - [ViT](https://huggingface.co/google/vit-base-patch16-224)
-- text_ckpts
-    - Encoder-only
-        - [BERT](https://huggingface.co/bert-base-uncased)
-        - [SciBERT](https://huggingface.co/allenai/scibert_scivocab_uncased)
-        - [RoBERTa](https://huggingface.co/roberta-base)
-        - [ChemBERTa](https://huggingface.co/seyonec/ChemBERTa-zinc-base-v1)
-    - Decoder-only
-        - [GPT-2](https://huggingface.co/gpt2)
-        - [GPTNEO](https://huggingface.co/EleutherAI/gpt-neo-125m)
-        - [BioGPT](https://huggingface.co/microsoft/biogpt)
-    - Encoder-Decoder
-        - [BART](https://huggingface.co/facebook/bart-base)
-        - [T5](https://huggingface.co/google/flan-t5-base)
-        - [T511](https://huggingface.co/google/flan-t5-base)
-        - [MolT5-base](https://huggingface.co/laituan245/molt5-base)
-
-### `datasets`
-- **ChEBI-20-MM**: A comprehensive multi-modal molecular benchmark dataset.
-- **mpp**: The MoleculeNet benchmark dataset, widely used in molecular studies.
+### `datasets/Mol`
+This directory includes materials for working with molecular data:
+- **SMILES/type**: Contains training data in SMILES format.
+- **data_process.ipynb**: Notebook for preprocessing the dataset.
 
 ### `src`
-- **`evaluations`**: Scripts for various evaluation metrics.
-    - `fingerprint_metrics.py`: Evaluates molecular fingerprint metrics.
-    - `text_translation_metrics.py`: Metrics for assessing text translation accuracy.
-    - `mol_translation_metrics.py`: Measures the performance of molecular translation tasks.
-- **`feature`**: Contains embedding methods and featurizers.
-    - `base_featurizer.py`: Base class for feature embedding.
-    - `graph_featurizer.py`: Specializes in graph-based molecular embeddings.
-- **`models`**: Core models for single-modal and multi-modal tasks.
-    - `molecule`: Houses models specific to single-modal molecular data.
-    - `multimodal`: Contains models designed for multi-modal tasks.
-    - `metric.py`: Facilitates the loading of various metrics.
+Source code directory housing the implementation details:
+- **`datasets`**: Code for constructing datasets.
+    - `dataset_manager.py`: Creation of datasets for adaptive knowledge injection.
+    - `dataset_manager_label.py`: Creation of datasets for knowledge elicitation.
+- **`evaluations`**: Scripts for computing various evaluation metrics.
+- **`models`**: Core models for the tasks.
     - `init.py`: Initializes model parameters and settings.
-    - `model_manager.py`: Manages the loading and handling of models.
+    - `model_manager.py`: Manages the loading and handling of models for knowledge injection.
+    - `model_manager_label.py`: Manages the loading and handling of models for knowledge elicitation.
+    - `chemT5.py`: Text+Chem T5.
 - **`utils`**: Utility functions and initializations.
     - `init.py`: General utility tool initialization.
     - `xutils.py`: Advanced and specialized utility tool initialization.
-- **`tasks`**: Task-specific scripts and data loaders.
-    - `dataset_manager.py`: DataLoader for the ChEBI-20-MM dataset.
-    - `task_manager.py`: Manages text generation tasks.
-    - `mol_retrieval.py`: Handles the retrieval task operations.
-    - `MoleculeNet_loader.py`: DataLoader for the MoleculeNet dataset.
-    - `splitters.py`: Implements various data splitting methods.
-    - `MPP.py`: Code for molecular property prediction tasks.
+- **`task_manager.py`**: Function to execute tasks related to adaptive knowledge injection.
+- **`task_manager_label.py`**: Function to execute tasks related to knowledge elicitation.
 
-**Detailed Parameter Explanations for Tasks**
+### Detailed Parameter Explanations for Tasks
 
-### Common Command Parameters
-- `mode`: Select the operation mode. Options include `data_check`, `encoder_check`, and `eval`.
-- `dataset_toy`: Use a smaller, "toy" dataset for quick testing. Set to `toy`.
-- `graph_encoder`: Choose a graph encoder. Available options are `gin`, `gat`, `gcn`.
-- `text_encoder`: Select a text encoder. Options are `bert`, `scibert`, `roberta`, `chemberta`, `bart`, `t5`, `t511`, `molt5`.
-- `image_encoder`: Choose an image encoder from `swin`, `resnet`, `vit`.
-- `batch_size`: Set the batch size. Valid choices are 2, 4, 6, 8, 12, 16, 32.
+#### Common Command Parameters
+- `mode`: Select the operation mode. Options include `data_check`, `encoder_check`, `train`, and `eval`.
+- `N`: Number of clusters.
+- `reaction_type`: Specifies whether to include RT during training.
+- `task`: Task type. Options include `forward`, `retro`, `reagent`, and `reactions`.
+- `batch_size`: Set the batch size for operations.
 
-### Task-Specific Command Parameters
-- Execute `python task_manager.py` with the following options:
-    - `input_modal`: Define the input modality. Choices include `graph`, `SMILES`, `image`, `IUPAC`, `SELFIES`, `InChI`, `caption`.
-    - `output_modal`: Specify the output modality. Options are `SMILES`, `caption`, `IUPAC`.
-    - `task_name`: Select the task to perform. Available tasks are `molcap`, `mol2IUPAC`, `textmolgen`, `IUPAC2mol`, `image2smi`.
-    - `fusion_net`: Choose a fusion network strategy. Options include `add`, `weight_add`, `self_attention`.
-    - `decoder`: Select the decoder to use. Choices are `molt5`, `biogpt`, `gpt2`, `gptneo`.
+![Case studies of RT annotation](figures/figure4.png)
 
-- For molecular retrieval, execute `python mol_retrieval.py`:
-    - The `input_modal` and `output_modal` parameters are the same as in `task_manager.py`.
-
-- For executing `python MPP.py` (Molecular Property Prediction):
-    - `input_modal`: Define the input modality. Choices include `graph`, `SMILES`, `SELFIES`, `InChI`.
-    - `dataset_name`: Specify the dataset for property prediction. Options include `tox21`, `bace`, `bbbp`, `toxcast`, `sider`, `clintox`, `esol`, `lipophilicity`, `freesolv`.
-    - `split`: Choose the data splitting method. Options are `scaffold` or `random`.
-    - `pool`: Determine the pooling strategy. Choose between `avg` and `max`.
-      
-## Results
-![Results of Benchmark](figures/figure5.png)
-- **a. Modal Transition Probability Matrix.** This matrix presents the performance in text generation and property prediction tasks. The vertical axis represents input modalities, while the horizontal axis
-denotes output modalities.
-- **b. Encoders and Decoders in Nine Text-to-Text Tasks.** This illustration highlights the frequency of various models appearing in the top 5 rankings. The T5 series models exhibit a dominant presence.
-- **c. Encoders, Pooling Mechanisms, and Retrieval Performance in Embedding Tasks.** Alongside model rankings, the figure indicates that average pooling is a preferred choice for the pooling layer. Additionally, from a molecular retrieval
-
-## Analysis of Model Knowledge-Learning Preferences
-Our analysis aims to discern model preferences for knowledge acquisition. To enhance interpretability, we focus on the IUPAC-to-caption mapping process, which is closely aligned with natural language tasks. Figure. a displays the token mapping matrix after normalization and rearrangement based on the total counts of rows and columns, selecting the top 20 high-frequency chemical tokens in IUPAC names and captions. General high-frequency mappings, such as oxy, methyl, and hydroxy, appear extensively across various tokens. Traditional filtering methods might capture many of these mappings yet potentially exclude those with specific contextual significance.
-
-To find specific high-frequency mapping pairs, as shown in Figure. b, at T = 2.788, the Z-test reaches its maximum value of 2.405, corresponding to a confidence level of 98.2%. After identifying 21 specific token mapping pairs and removing those with identical row and column names, we are left with 16 unique pairs. By consolidating mappings with the same leading or trailing tokens, we obtain the following 9 groups of token mappings:
-
-- `['ent']` → `['methyl']`
-- `['lan', 'phospho']` → `['phosphat']`
-- `['ace']` → `['amino']`
-- `['ryl']` → `['acy', 'ate', 'acid', 'conjug']`
-- `['hydr']` → `['one']`
-- `['cycl']` → `['hydroxy', 'one']`
-- `['phen']` → `['group']`
-- `['min']` → `['ine']`
-- `['hydroxy']` → `['acid', 'mono']`
-
-These mapping patterns illustrate the diversity and specificity of chemical token relationships captured through our analysis. Following these mapping patterns, we randomly select corresponding molecular IUPAC names and their captions, as shown in Figure. c.
-
-![Co-occurrence Patterns and Insights](figures/figure6.png)
-- **a. IUPAC-to-Caption Tokens Mapping Matrix of T5.** This matrix presents the performance in text generation and property prediction tasks. The vertical axis represents input modalities, while the horizontal axis
-denotes output modalities.
-- **b. Threshold T Analysis.** There are 100 thresholds within the range [0,3] for T . As the threshold increases, the criteria for selecting
-specific high-frequency pairs become more stringent, reducing their number while also affecting significance levels.
-- **c. Examples of T5 Knowledge-Learning Preferences.** 
+To validate the practical significance of RT annotation, we analyze samples filtered through the `concat(input, output)_{vec}` vector with `N=10` labeled results, focusing on samples with an RT label of 0. These instances typically involve simple atomic substitutions, verifying the predominance of substitution reactions in these cases. This analysis highlights the real-world relevance of our RT annotation method.
 
 ## References
 ```
