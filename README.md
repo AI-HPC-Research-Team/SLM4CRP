@@ -31,10 +31,6 @@ The SLM4CRP_with_RTs dataset is a CRPs dataset featuring RT labels, developed fr
 - **Data curation**: The trained LLM-RT model annotates RTs for the validation and testing datasets based on their input configurations.
 - **Adaptive knowledge injection**: Adaptability scores are derived from the embeddings of inputs and instructions, guiding the selection of the most effective adaptive instructions.
 
-![Performance of encoding vector self-feedback annotation and clustering](figures/figure3.png)
-- **Accuracy of RT annotations across encoding vectors and clustering numbers**: We assess the annotation accuracy ($Acc$) among four encoding methods at various reasonable clustering numbers ($N$). The results reveal that the encoding method utilizing concatenated input-output vectors ($concat(input, output)_{vec}$) delivers the highest performance.
-- **Clustering of test dataset vectors ($concat(input, output)_{vec}$)**: With $N$ set to 6 and 10, test dataset vectors are processed through a linear layer to reduce them to two dimensions, effectively visualizing the clustering outcomes.
-
 ## Code Structure
 
 ### `ckpts`
@@ -66,14 +62,18 @@ Source code directory housing the implementation details:
 - **`task_manager_label.py`**: Function to execute tasks related to knowledge elicitation.
 
 ### Detailed Parameter Explanations for Tasks
-
-#### Common Command Parameters
 - `mode`: Select the operation mode. Options include `data_check`, `encoder_check`, `train`, and `eval`.
 - `N`: Number of clusters.
 - `reaction_type`: Specifies whether to include RT during training.
 - `task`: Task type. Options include `forward`, `retro`, `reagent`, and `reactions`.
 - `batch_size`: Set the batch size for operations.
+- 
+## Knowledge Elicitation
+![Performance of encoding vector self-feedback annotation and clustering](figures/figure3.png)
+- **Accuracy of RT annotations across encoding vectors and clustering numbers**: We assess the annotation accuracy ($Acc$) among four encoding methods at various reasonable clustering numbers ($N$). The results reveal that the encoding method utilizing concatenated input-output vectors ($concat(input, output)_{vec}$) delivers the highest performance.
+- **Clustering of test dataset vectors ($concat(input, output)_{vec}$)**: With $N$ set to 6 and 10, test dataset vectors are processed through a linear layer to reduce them to two dimensions, effectively visualizing the clustering outcomes.
 
+## Case Studies
 ![Case studies of RT annotation](figures/figure4.png)
 
 To validate the practical significance of RT annotation, we analyze samples filtered through the `concat(input, output)_{vec}` vector with `N=10` labeled results, focusing on samples with an RT label of 0. These instances typically involve simple atomic substitutions, verifying the predominance of substitution reactions in these cases. This analysis highlights the real-world relevance of our RT annotation method.
