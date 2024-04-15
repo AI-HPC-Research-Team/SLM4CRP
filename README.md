@@ -67,9 +67,9 @@ Source code directory housing the implementation details:
 - `reaction_type`: Specifies whether to include RT during training.
 - `task`: Task type. Options include `forward`, `retro`, `reagent`, and `reactions`.
 - `batch_size`: Set the batch size for operations.
-- 
+
 ## Knowledge Elicitation
-![Performance of encoding vector self-feedback annotation and clustering](figures/figure3.png)
+<img src="figure3.png" alt="Performance of encoding vector self-feedback annotation and clustering" width="90%">
 - **Accuracy of RT annotations across encoding vectors and clustering numbers**: We assess the annotation accuracy ($Acc$) among four encoding methods at various reasonable clustering numbers ($N$). The results reveal that the encoding method utilizing concatenated input-output vectors ($concat(input, output)_{vec}$) delivers the highest performance.
 - **Clustering of test dataset vectors ($concat(input, output)_{vec}$)**: With $N$ set to 6 and 10, test dataset vectors are processed through a linear layer to reduce them to two dimensions, effectively visualizing the clustering outcomes.
 
