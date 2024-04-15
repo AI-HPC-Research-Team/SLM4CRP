@@ -86,5 +86,5 @@ To validate the practical significance of RT annotation, we analyze samples filt
 
 ## Acknowledgments
 
-The development of the SLM4CRP_with_RTs dataset was greatly inspired by the Mol-Instruction approach to chemical reaction predictions (CRPs). We are also thankful to Hugging Face for providing the initial model weights that facilitated our research.
+The development of the SLM4CRP_with_RTs dataset was greatly inspired by the Mol-Instruction approach to CRPs. We are also thankful to Hugging Face for providing the initial model weights that facilitated our research.
 
