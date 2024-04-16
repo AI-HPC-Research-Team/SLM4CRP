@@ -81,10 +81,16 @@ Source code directory housing the implementation details:
 
 To validate the practical significance of RT annotation, we analyze samples filtered through the `concat(input, output)_{vec}` vector with `N=10` labeled results, focusing on samples with an RT label of 0. These instances typically involve simple atomic substitutions, verifying the predominance of substitution reactions in these cases. This analysis highlights the real-world relevance of our RT annotation method.
 
-## References
+## Citation
 ```
-[1] Fang Y, Liang X, Zhang N, et al. Mol-Instructions-A Large-Scale Biomolecular Instruction Dataset for Large Language Models[C]//The Twelfth International Conference on Learning Representations. 2023.
-[2] Christofidellis D, Giannone G, Born J, et al. Unifying molecular and textual representations via multi-task language modelling[C]//International Conference on Machine Learning. PMLR, 2023: 6140-6157.
+@misc{liu2024selffeedback,
+      title={A Self-feedback Knowledge Elicitation Approach for Chemical Reaction Predictions}, 
+      author={Pengfei Liu and Jun Tao and Zhixiang Ren},
+      year={2024},
+      eprint={2404.09606},
+      archivePrefix={arXiv},
+      primaryClass={cs.LG}
+}
 ```
 
 ## Acknowledgments
