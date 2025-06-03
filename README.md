@@ -1,6 +1,7 @@
 # A Self-feedback Knowledge Elicitation Approach: Scientific Language Modeling for Chemical Reaction Predictions (SLM4CRP)
 
 [![arXiv](https://img.shields.io/badge/Arxiv-2404.09606-b31b1b.svg?logo=arXiv)](https://arxiv.org/abs/2404.09606) 
+[![DOI](https://img.shields.io/badge/DOI-10.1016%2Fj.engappai.2025.111112-blue.svg)](https://doi.org/10.1016/j.engappai.2025.111112)
 [![HuggingFace](https://img.shields.io/badge/🤗-SLM4CRP%20with%20RTs-blue.svg)](https://huggingface.co/datasets/liupf/SLM4CRP_with_RTs)
 
 [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/a-self-feedback-knowledge-elicitation/chemical-reaction-prediction-on-mol)](https://paperswithcode.com/sota/chemical-reaction-prediction-on-mol?p=a-self-feedback-knowledge-elicitation)
@@ -88,13 +89,15 @@ To validate the practical significance of RT annotation, we analyze samples filt
 
 ## Citation
 ```
-@misc{liu2024selffeedback,
-      title={A Self-feedback Knowledge Elicitation Approach for Chemical Reaction Predictions}, 
-      author={Pengfei Liu and Jun Tao and Zhixiang Ren},
-      year={2024},
-      eprint={2404.09606},
-      archivePrefix={arXiv},
-      primaryClass={cs.LG}
+@article{LIU2025111112,
+    title = {A self-feedback knowledge elicitation approach for chemical reaction predictions},
+    journal = {Engineering Applications of Artificial Intelligence},
+    volume = {156},
+    pages = {111112},
+    year = {2025},
+    issn = {0952-1976},
+    doi = {https://doi.org/10.1016/j.engappai.2025.111112},
+    author = {Pengfei Liu and Jun Tao and Zhixiang Ren}
 }
 ```
 
